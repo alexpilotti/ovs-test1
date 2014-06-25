@@ -15,6 +15,8 @@ Abstract:
 
 
 --*/
+#ifndef __SX_BASE_H_
+#define __SX_BASE_H_ 1
 
 extern NDIS_STRING SxExtensionFriendlyName;
 extern NDIS_STRING SxExtensionGuid;
@@ -165,4 +167,4 @@ extern ULONG SxDebugLevel;
 
 #endif
 
-
+#endif /* __SX_BASE_H_ */

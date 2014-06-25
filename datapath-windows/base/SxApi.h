@@ -61,7 +61,7 @@ Routine Description:
     An extension should allocate/initalize all global data in this function.
       
 Arguments:
-    NULL
+   sxDriverHandle - Filter driver handle.
     
 Return Value:
     NDIS_STATUS_SUCCESS succeeds driver entry.
@@ -70,7 +70,7 @@ Return Value:
    
 --*/
 NDIS_STATUS
-SxExtInitialize();
+SxExtInitialize(NDIS_HANDLE sxDriverHandle);
 
 
 /*++

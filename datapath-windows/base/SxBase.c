@@ -60,15 +60,6 @@ DriverEntry(
 
     UNREFERENCED_PARAMETER(RegistryPath);
     
-    //
-    // Initialize extension specific data.
-    //
-    status = SxExtInitialize();
-    if (status != NDIS_STATUS_SUCCESS)
-    {
-        goto Cleanup;
-    }
-
     RtlInitUnicodeString(&serviceName, SxExtServiceName);
     RtlInitUnicodeString(&SxExtensionFriendlyName, SxExtFriendlyName);
     RtlInitUnicodeString(&SxExtensionGuid, SxExtUniqueName);
@@ -118,7 +109,12 @@ DriverEntry(
                                        &fChars,
                                        &SxDriverHandle);
 
-Cleanup:
+    //
+    // Initialize extension specific data.
+    //
+    if (status == NDIS_STATUS_SUCCESS) {
+        status = SxExtInitialize(SxDriverHandle);
+    }
 
     if (status != NDIS_STATUS_SUCCESS)
     {
@@ -129,8 +125,6 @@ Cleanup:
         }
 
         NdisFreeSpinLock(&SxExtensionListLock);
-        
-        SxExtUninitialize();
     }
 
     return status;
