@@ -135,6 +135,11 @@ netdev_initialize(void)
         netdev_register_provider(&netdev_tap_class);
         netdev_register_provider(&netdev_bsd_class);
 #endif
+#ifdef _WIN32
+        netdev_register_provider(&netdev_win_class);
+        netdev_register_provider(&netdev_internal_class);
+        netdev_vport_tunnel_register();
+#endif
         netdev_dpdk_register();
 
         ovsthread_once_done(&once);

@@ -17,11 +17,18 @@
 #ifndef JHASH_H
 #define JHASH_H 1
 
+/*
+ * The datapath in the Windows kernel utilizes jenkins hashing code available
+ * here. We need to be selective about header file inclusions and type
+ * definitions.
+ */
+#ifndef OVS_WIN_DP
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
 #include <string.h>
 #include "util.h"
+#endif
 
 #ifdef __cplusplus
 extern "C" {

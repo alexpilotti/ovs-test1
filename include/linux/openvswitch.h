@@ -40,8 +40,14 @@
 #ifndef _LINUX_OPENVSWITCH_H
 #define _LINUX_OPENVSWITCH_H 1
 
+#ifndef OVS_WIN_DP
+/*
+ * This file is included by the datapath in the Windows kernel. We need to be
+ * selective about header file inclusions.
+ */
 #include <linux/types.h>
 #include <linux/if_ether.h>
+#endif
 
 /**
  * struct ovs_header - header for OVS Generic Netlink messages.
@@ -318,7 +324,7 @@ enum ovs_key_attr {
 	OVS_KEY_ATTR_DP_HASH,	/* u32 hash value. Value 0 indicates the hash
 				   is not computed by the datapath. */
 	OVS_KEY_ATTR_RECIRC_ID, /* u32 recirc id */
-#ifdef __KERNEL__
+#if defined(__KERNEL__) || defined(_WIN32)
 	/* Only used within kernel data path. */
 	OVS_KEY_ATTR_IPV4_TUNNEL,  /* struct ovs_key_ipv4_tunnel */
 #endif

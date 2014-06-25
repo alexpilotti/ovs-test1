@@ -246,9 +246,12 @@ lib_libopenvswitch_la_SOURCES = \
 
 if WIN32
 lib_libopenvswitch_la_SOURCES += \
+       lib/dpif-windows.c \
+       lib/dpif-windows.h \
 	lib/daemon-windows.c \
 	lib/getopt_long.c \
 	lib/getrusage-windows.c \
+       lib/netdev-windows.c \
 	lib/latch-windows.c \
 	lib/route-table-stub.c \
 	lib/strsep.c \

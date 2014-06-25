@@ -14,10 +14,27 @@
  * limitations under the License.
  */
 
+/*
+ * The datapath in the Windows kernel utilizes jenkins hashing code available
+ * here. We need to be selective about header file inclusions and type
+ * definitions.
+ */
+#ifndef OVS_WIN_DP
 #include <config.h>
 #include "jhash.h"
 #include <string.h>
 #include "unaligned.h"
+#else
+
+#include "precomp.h"
+#define inline __inline
+
+static inline uint32_t get_unaligned_u32(const uint32_t *p_)
+{
+    const uint8_t *p = (const uint8_t *)p_;
+    return ntohl((p[0] << 24) | (p[1] << 16) | (p[2] << 8) | p[3]);
+}
+#endif /* OVS_WIN_DP */
 
 /* This is the public domain lookup3 hash by Bob Jenkins from
  * http://burtleburtle.net/bob/c/lookup3.c, modified for style. */
@@ -99,7 +116,7 @@ jhash_bytes(const void *p_, size_t n, uint32_t basis)
     const uint32_t *p = p_;
     uint32_t a, b, c;
 
-    a = b = c = 0xdeadbeef + n + basis;
+    a = b = c = 0xdeadbeef + (uint32_t)n + basis;
 
     while (n >= 12) {
         a += get_unaligned_u32(p);

@@ -60,6 +60,9 @@ static const struct dpif_class *base_dpif_classes[] = {
 #ifdef __linux__
     &dpif_linux_class,
 #endif
+#ifdef _WIN32
+    &dpif_windows_class,
+#endif
     &dpif_netdev_class,
 };
 
