@@ -1,6 +1,5 @@
-Open vSwitch support on Windows is a work in progress.  This file describes
-the planned build system to compile Open vSwitch on Windows.  Once the work
-is complete, this file will be replaced by a INSTALL.Windows file.
+        How to Build the Kernel module & userspace daemons for Windows
+        ==============================================================
 
 Autoconf, Automake and Visual C++:
 ---------------------------------
@@ -94,6 +93,32 @@ For example,
 
 * Run make for the ported executables.
 
+Building the Kernel module
+--------------------------
+We directly use the Visual Studio 2013 IDE to compile the kernel module. You can
+open the extensions.sln file in the IDE and build the solution.
+
+Installing the Kernel module
+----------------------------
+Once you have built the solution, you can copy the following files to the
+target Hyper-V machines:
+
+    ./datapath-windows/x64/Win8.1Debug/package/ovsext.inf
+    ./datapath-windows/x64/Win8.1Debug/package/OVSExt.sys
+    ./datapath-windows/x64/Win8.1Debug/package/ovsext.cat
+    ./datapath-windows/misc/install.cmd
+    ./datapath-windows/misc/uninstall.cmd
+
+Steps to install the module -
+
+01. Run ./uninstall.cmd to remove the old extension.
+02. Run ./install.cmd to insert the new one. For this to work you will have to
+turn on TESTSIGNING boot option or 'Disable Driver Signature Enforcement'
+during boot.
+03. In the Virtual Switch Manager configuration you should now see "VMWare OVS
+Extension" under 'Virtual Switch Extensions'. Click the check box to enable the
+extension.
+
 TODO:
 ----
 
@@ -101,3 +126,6 @@ TODO:
 are used as a fallback, but some features, such as OVS-RCU are really
 slow without native atomics support. Atomics support for Windows has to
 be brought in.
+
+* Sign the driver & create an MSI for installing the different OpenvSwitch
+components on windows.
